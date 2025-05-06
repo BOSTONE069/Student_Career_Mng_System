@@ -10,3 +10,4 @@ class Student(AbstractUser):
 
     def __str__(self):
         return f"{self.username} ({self.student_id})"
+    
