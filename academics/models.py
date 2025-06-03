@@ -35,3 +35,14 @@ class Unit(models.Model):
 
     def __str__(self):
         return f"{self.code} - {self.name}"
+
+
+class Fee(models.Model):
+    program = models.ForeignKey(Program, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    currency = models.CharField(max_length=10, default='USD')
+    fee_type = models.CharField(max_length=50)
+    description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.fee_type} - {self.amount} {self.currency} for {self.program.name}"
