@@ -28,6 +28,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+OPENAI_API_KEY = config('OPENAI_API_KEY')
+
 
 # Application definition
 
@@ -42,6 +44,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'users',
     'academics',
+    'ExamRegistration',
+    'career',
     'drf_yasg',
 ]
 

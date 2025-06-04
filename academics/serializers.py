@@ -29,3 +29,4 @@ class FeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Fee
         fields = '__all__'
+
