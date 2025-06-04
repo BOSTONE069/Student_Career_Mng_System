@@ -32,6 +32,7 @@ schema_view = get_schema_view(
     ),
     public=True,
     permission_classes=(permissions.AllowAny,),
+    url='https://scms-hecyceeza5anbhd7.southafricanorth-01.azurewebsites.net',
 )
 
 urlpatterns = [
