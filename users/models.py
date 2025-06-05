@@ -4,6 +4,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+# The `Student` class extends `AbstractUser` and includes fields for `student_id` and `institution`.
 class Student(AbstractUser):
     student_id = models.CharField(max_length=20, unique=True)
     institution = models.CharField(max_length=100, blank=True, null=True)
