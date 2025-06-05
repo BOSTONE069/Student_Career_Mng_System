@@ -6,6 +6,9 @@ from users.models import Student
 
 class CareerAssessmentModelTestCase(unittest.TestCase):
     def setUp(self):
+        """
+        The setUp function creates a student user with specified details in a Python test case.
+        """
         self.student = Student.objects.create_user(
             username='teststudent',
             password='password123',
@@ -14,10 +17,18 @@ class CareerAssessmentModelTestCase(unittest.TestCase):
         )
 
     def tearDown(self):
+        """
+        The `tearDown` function deletes all instances of `CareerAssessment` and `Student` objects from
+        the database.
+        """
         CareerAssessment.objects.all().delete()
         Student.objects.all().delete()
 
     def test_create_career_assessment_with_valid_data(self):
+        """
+        The function `test_create_career_assessment_with_valid_data` creates a CareerAssessment object
+        with specific data and asserts its attributes.
+        """
         assessment = CareerAssessment.objects.create(
             student=self.student,
             interests="math,science",
@@ -31,6 +42,9 @@ class CareerAssessmentModelTestCase(unittest.TestCase):
         self.assertEqual(assessment.academic_strengths, "algebra,geometry")
 
     def test_career_assessment_str_representation(self):
+        """
+        The function creates a CareerAssessment object and tests its string representation.
+        """
         assessment = CareerAssessment.objects.create(
             student=self.student,
             interests="math,science",
@@ -41,6 +55,10 @@ class CareerAssessmentModelTestCase(unittest.TestCase):
         self.assertEqual(str(assessment), expected_str)
 
     def test_created_at_auto_now_add(self):
+        """
+        The function tests if the 'created_at' field of a CareerAssessment object is automatically set
+        to the current time upon creation.
+        """
         before = timezone.now()
         assessment = CareerAssessment.objects.create(
             student=self.student,
@@ -54,6 +72,10 @@ class CareerAssessmentModelTestCase(unittest.TestCase):
         self.assertLessEqual(assessment.created_at, after)
 
     def test_career_assessment_without_student(self):
+        """
+        The function tests the creation of a CareerAssessment object without a student, expecting an
+        IntegrityError to be raised.
+        """
         with self.assertRaises(IntegrityError):
             CareerAssessment.objects.create(
                 student=None,
@@ -63,6 +85,10 @@ class CareerAssessmentModelTestCase(unittest.TestCase):
             )
 
     def test_career_assessment_with_empty_fields(self):
+        """
+        The function tests the creation of a CareerAssessment object with empty fields for interests,
+        skills, and academic strengths.
+        """
         assessment = CareerAssessment.objects.create(
             student=self.student,
             interests="",
@@ -74,6 +100,11 @@ class CareerAssessmentModelTestCase(unittest.TestCase):
         self.assertEqual(assessment.academic_strengths, "")
 
     def test_cascade_delete_on_student_removal(self):
+        """
+        The function tests cascade deletion on the removal of a student by creating a CareerAssessment
+        instance associated with the student and then deleting the student to verify if the
+        CareerAssessment instance is also deleted.
+        """
         assessment = CareerAssessment.objects.create(
             student=self.student,
             interests="math,science",

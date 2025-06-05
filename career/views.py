@@ -24,6 +24,20 @@ except Exception as e:
     raise
 
 class CareerAssessmentView(generics.CreateAPIView):
+    """
+    The `generate_recommendation` function uses the Azure OpenAI API to generate career recommendations
+    based on a student's interests, skills, and academic strengths provided in a career assessment.
+    
+    :param assessment: The `assessment` parameter in the `generate_recommendation` function represents
+    an instance of the `CareerAssessment` model. It contains information about a student's interests,
+    skills, and academic strengths that have been submitted for career advice. This information is used
+    to generate suitable career recommendations for the student based
+    :return: The `generate_recommendation` function returns a string that represents the recommendation
+    generated for the student based on their career assessment information. This recommendation is
+    tailored to the student's interests, skills, and academic strengths, and it suggests 3 suitable
+    career paths along with a brief explanation for each career path. If an error occurs during the
+    generation of the recommendation using the Azure OpenAI API, the function returns `
+    """
     queryset = CareerAssessment.objects.all()
     serializer_class = CareerAssessmentSerializer
     permission_classes = [IsAuthenticated]
@@ -70,6 +84,8 @@ Suggest 3 suitable career paths for the student. Include a brief explanation for
         logger.error("Azure OpenAI API error: %s", e)
         return None
 
+# This class represents a view in a Django REST framework API that lists career recommendations for
+# the authenticated user.
 class CareerRecommendationView(generics.ListAPIView):
     serializer_class = CareerRecommendationSerializer
     permission_classes = [IsAuthenticated]
