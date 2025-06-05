@@ -1,14 +1,27 @@
 from django.shortcuts import render
-
-# Create your views here.
 from rest_framework import generics
 from .models import CareerAssessment, CareerRecommendation
 from .serializers import CareerAssessmentSerializer, CareerRecommendationSerializer
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-import openai
 from django.conf import settings
+from openai import AzureOpenAI
+import os
+import logging  # For better error handling/logging
 
+# Set up logger
+logger = logging.getLogger(__name__)
+
+# Initialize Azure OpenAI client
+try:
+    client = AzureOpenAI(
+        azure_endpoint=settings.AZURE_OPENAI_ENDPOINT,
+        api_version="2024-02-15-preview",
+        api_key=settings.AZURE_OPENAI_KEY
+    )
+except Exception as e:
+    logger.error("Failed to initialize AzureOpenAI client: %s", e)
+    raise
 
 class CareerAssessmentView(generics.CreateAPIView):
     queryset = CareerAssessment.objects.all()
@@ -17,15 +30,18 @@ class CareerAssessmentView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         instance = serializer.save(student=self.request.user)
-        # Generate recommendation
         recommendation = generate_recommendation(instance)
-        CareerRecommendation.objects.create(
-            student=self.request.user,
-            recommendation_text=recommendation
-        )
 
-def generate_recommendation(assessment):
-    import openai
+        if recommendation:
+            CareerRecommendation.objects.create(
+                student=self.request.user,
+                recommendation_text=recommendation
+            )
+        else:
+            CareerRecommendation.objects.create(
+                student=self.request.user,
+                recommendation_text="Could not generate recommendation at this time."
+            )
 
 def generate_recommendation(assessment):
     prompt = f"""
@@ -37,11 +53,9 @@ You are a career advisor. A student has submitted the following:
 Suggest 3 suitable career paths for the student. Include a brief explanation for each career, tailored to the given information.
 """
 
-    openai.api_key = settings.OPENAI_API_KEY
-
     try:
-        response = openai.ChatCompletion.create(
-            model="gpt-4",
+        response = client.chat.completions.create(
+            model=settings.AZURE_OPENAI_DEPLOYMENT_NAME,  # e.g., "gpt-4o"
             messages=[
                 {"role": "system", "content": "You are a helpful career guidance assistant."},
                 {"role": "user", "content": prompt}
@@ -50,11 +64,11 @@ Suggest 3 suitable career paths for the student. Include a brief explanation for
             temperature=0.7
         )
 
-        return response.choices[0].message['content']
+        return response.choices[0].message.content.strip()
 
     except Exception as e:
-        return "An error occurred while generating the recommendation. Please try again later."
-
+        logger.error("Azure OpenAI API error: %s", e)
+        return None
 
 class CareerRecommendationView(generics.ListAPIView):
     serializer_class = CareerRecommendationSerializer
