@@ -36,6 +36,7 @@ AZURE_OPENAI_DEPLOYMENT_NAME = os.environ.get("AZURE_OPENAI_DEPLOYMENT_NAME", "g
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -166,4 +167,29 @@ REST_FRAMEWORK = {
 }
 
 AUTH_USER_MODEL = 'users.Student'
+
+JAZZMIN_SETTINGS = {
+    "site_title": "EDU HUB",
+    "site_header": "EDU HUB",
+    "site_brand": "EDU HUB",
+    "welcome_sign": "Welcome to EDU HUB",
+    "copyright": "EDU HUB",
+    "search_model": ["auth.User", "auth.Group"],
+
+    # Top menu links
+    "topmenu_links": [
+        {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"model": "auth.User"},
+        {"model": "auth.Group"},
+        {"name": "Support", "url": "https://support.example.com", "new_window": True},
+    ],
+
+    # Custom icons for models/apps
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users",
+    },
+
+}
 
