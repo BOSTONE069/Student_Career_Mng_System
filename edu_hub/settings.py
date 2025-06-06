@@ -85,7 +85,6 @@ WSGI_APPLICATION = 'edu_hub.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
@@ -193,3 +192,12 @@ JAZZMIN_SETTINGS = {
 
 }
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://eduhub001-bmewcahgdpcyfcce.southafricanorth-01.azurewebsites.net'
+]
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+USE_X_FORWARDED_HOST = True
