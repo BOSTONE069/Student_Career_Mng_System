@@ -1,6 +1,9 @@
 # Edu Hub
-
+Unified National Education Platform that integrates all Kenyan universities and higher education institutions. The core of this system would be a Single Student ID, a centralized identifier linked to a student’s records, courses, and academic history.
 Edu Hub is a Django-based RESTful API project designed to manage various educational and career-related functionalities. The project is structured into multiple Django apps, each responsible for a specific domain such as academics, career guidance, exam registration, and user authentication.
+
+## Goal
+Develop a unified national education platform that not only simplifies and streamlines access to educational services across institutions but also integrates an AI-powered career guidance module. Such a system would leverage advanced data analytics and AI to provide students with tailored career advice based on their unique strengths, academic profiles, and aspirations. This would empower students to make informed decisions, maximize opportunities for scholarships and internships, and achieve their full potential in Kenya’s evolving job market
 
 ## Features
 
