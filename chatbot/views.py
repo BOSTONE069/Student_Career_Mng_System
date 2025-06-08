@@ -2,7 +2,6 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
-from dotenv import load_dotenv
 from edu_hub.settings import AZURE_OPENAI_KEY
 from langchain_openai import ChatOpenAI
 from langchain.schema import AIMessage, HumanMessage, SystemMessage
@@ -13,7 +12,11 @@ model = ChatOpenAI(model="gpt-4o", openai_api_key=AZURE_OPENAI_KEY)
 
 # Initialize chat history
 chat_history = [
-    SystemMessage(content="You are a helpful AI assistant.")
+    SystemMessage(content=(
+    "You are a knowledgeable and friendly career and university courses advisor. "
+    "You help students explore different career paths based on their interests and competencies. "
+    "You also suggest suitable university courses and programs that align with their skills and aspirations."
+))
 ]
 
 @csrf_exempt
