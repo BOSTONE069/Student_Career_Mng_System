@@ -8,3 +8,9 @@ openai>=1.0.0
 mysqlclient>=2.2.0
 whitenoise>=6.6.0
 django-jazzmin==3.0.1
+langchainhub>=0.1.18
+sentence-transformers>=3.0.0
+langchain-openai>=0.1.8
+langchain>=0.2.1
+langchain-community>=0.2.1
+langchain-anthropic>=0.1.15
