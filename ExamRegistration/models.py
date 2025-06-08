@@ -2,6 +2,8 @@ from django.db import models
 from django.conf import settings
 from django.db.models import Q, CheckConstraint
 
+# This class represents an exam registration with fields for student, course details, semester, year,
+# registration timestamp, and verification status.
 class ExamRegistration(models.Model):
     student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     course_code = models.CharField(max_length=20)
