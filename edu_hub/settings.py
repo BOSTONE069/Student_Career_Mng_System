@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'academics',
     'ExamRegistration',
     'career',
+    'chatbot',
     'drf_yasg',
 ]
 
